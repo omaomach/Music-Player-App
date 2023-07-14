@@ -8,6 +8,7 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.SeekBar
 import android.widget.TextView
+import android.widget.Toast
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
@@ -63,6 +64,39 @@ class MainActivity : AppCompatActivity() {
             seekBar.progress = startTime.toInt()
 
             handler.postDelayed(UpdateSongTime, 1000)
+        }
+
+        // Setting the music title
+        titleTxt.text = ""+ resources.getResourceEntryName(R.raw.mungumkuu)
+
+        // Stop Button
+        pauseButton.setOnClickListener() {
+            mediaPlayer.pause()
+        }
+
+        // Forward Button
+        forwardButton.setOnClickListener() {
+            var temp = startTime
+            if ((temp + forwardTime) <= finalTime) {
+                startTime = startTime + forwardTime
+                mediaPlayer.seekTo(startTime.toInt())
+            }else {
+                Toast.makeText(this,
+                "Can't jump forward", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        // Back Button
+        backButton.setOnClickListener() {
+            var temp = startTime
+            if ((temp - backwardTime) > 0) {
+                startTime = startTime - backwardTime
+                mediaPlayer.seekTo(startTime.toInt())
+            }else {
+                Toast.makeText(this,
+                    "Can't jump backward",
+                    Toast.LENGTH_LONG).show()
+            }
         }
 
     }
